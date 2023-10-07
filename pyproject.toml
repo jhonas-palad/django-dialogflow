@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "chatbot-dialogflow-api"
+version = "0.1.0"
+description = "\"Integrating Dialogflow with Django\""
+authors = ["Jhonas Palad <jhonasemmanuel@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.6"
+djangorestframework = "^3.14.0"
+django-environ = "^0.11.2"
+google-cloud-iam = "^2.12.2"
+google-api-python-client = "^2.102.0"
+google = "^3.0.0"
+google-cloud-dialogflow = "^2.25.0"
+channels = {extras = ["daphne"], version = "^4.0.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
