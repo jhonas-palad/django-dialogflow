@@ -16,6 +16,7 @@ google-api-python-client = "^2.102.0"
 google = "^3.0.0"
 google-cloud-dialogflow = "^2.25.0"
 channels = {extras = ["daphne"], version = "^4.0.0"}
+whitenoise = "^6.6.0"
 
 
 [build-system]

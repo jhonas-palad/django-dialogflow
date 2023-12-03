@@ -24,20 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = env('DJANGO_SECRET_KEY') if DEBUG else "910489afc82399d00ddc3191a85171b259ed3f5dce233cafaaf6f95e0309563d"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-if json_credentials:= env("GOOGLE_APPLICATION_CREDENTIALS"):
-    with open(json_credentials, "r") as f:
-        _credentials = json.loads(f.read())
-
-    DIALOGFLOW = {
-        "GOOGLE_APPLICATION_CREDENTIALS" : env("GOOGLE_APPLICATION_CREDENTIALS"),
-        "PROJECT_ID" : _credentials['project_id']
-    }
 # Application definition
 
 INSTALLED_APPS = [
@@ -54,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,7 +60,7 @@ ROOT_URLCONF = 'chatbot_dialogflow_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,7 +122,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / 'dist',
+    BASE_DIR / 'public'
+]
+STATIC_ROOT = BASE_DIR / 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

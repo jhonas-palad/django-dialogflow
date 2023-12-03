@@ -3,14 +3,23 @@ from uuid import uuid4
 import os
 from django.conf import settings
 from django.core import exceptions
+import json
 
-if not hasattr(settings, 'DIALOGFLOW'):
-    raise exceptions.ImproperlyConfigured("DIALOGFLOW is not defined in Django settings")
+DEFAULT_FILENAME = 'credentials.json'
 
-PROJECT_ID = settings.DIALOGFLOW['PROJECT_ID']
+credentials_filename = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS', DEFAULT_FILENAME)
+
+if os.path.isfile(credentials_filename):
+    with open(credentials_filename, "r") as f:
+        _credentials = json.loads(f.read())
+else:
+    raise exceptions.ImproperlyConfigured("Google API credentials file is missing")
+
+
+PROJECT_ID = _credentials['project_id']
 async def start_session(session_id: str = None) -> SessionsAsyncClient:
     if 'GOOGLE_APPLICATION_CREDENTIALS' not in os.environ:
-        os.environ.setdefault('GOOGLE_APPLICATION_CREDENTIALS', 'dialogflow-credentials.json')
+        os.environ.setdefault('GOOGLE_APPLICATION_CREDENTIALS', credentials_filename)
     session_client = SessionsAsyncClient()
     session_id = session_id or str(uuid4())
     session = session_client.session_path(project=PROJECT_ID, session=session_id)
