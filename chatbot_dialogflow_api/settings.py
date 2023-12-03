@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-SECRET_KEY = env('DJANGO_SECRET_KEY') if DEBUG else "910489afc82399d00ddc3191a85171b259ed3f5dce233cafaaf6f95e0309563d"
+SECRET_KEY = env('DJANGO_SECRET_KEY') if not DEBUG else "910489afc82399d00ddc3191a85171b259ed3f5dce233cafaaf6f95e0309563d"
 
 ALLOWED_HOSTS = ['*']
 
